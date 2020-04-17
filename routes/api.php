@@ -12,7 +12,13 @@
 */
 
 Route::group([
+    'namespace' => 'Api\V1' ,
+    'prefix' => 'v1',
     'middleware' => 'auth:api'
 ], function () {
-    //
+
+    Route::apiResources([
+        'project' => 'ProjectController'
+    ]);
 });
+
