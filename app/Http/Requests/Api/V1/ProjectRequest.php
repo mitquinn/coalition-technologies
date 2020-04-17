@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Api\V1;
 
 use App\Http\Requests\Api\BaseRequest;
+use App\Rules\ProjectNameCanNotBeDuplicatedForSameUser;
 use Auth;
 
 /**
@@ -29,7 +30,11 @@ class ProjectRequest extends BaseRequest
     public function rules()
     {
         return [
-            'name' => 'required|string',
+            'name' => [
+                'required',
+                'string',
+                new ProjectNameCanNotBeDuplicatedForSameUser()
+            ],
         ];
     }
 }
