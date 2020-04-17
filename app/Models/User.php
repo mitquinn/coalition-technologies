@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Models\Project;
+use App\Models\Task;
 use Laravel\Spark\User as SparkUser;
 
 /**
@@ -82,6 +83,8 @@ use Laravel\Spark\User as SparkUser;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUsesTwoFactorAuth($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereVatId($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Task[] $tasks
+ * @property-read int|null $tasks_count
  */
 class User extends SparkUser
 {
@@ -139,6 +142,14 @@ class User extends SparkUser
     public function projects()
     {
         return $this->hasMany(Project::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
     }
 
 

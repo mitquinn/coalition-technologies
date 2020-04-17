@@ -18,7 +18,8 @@ Route::group([
 ], function () {
 
     Route::apiResources([
-        'project' => 'ProjectController'
+        'project' => 'ProjectController',
+        'task' => 'TaskController'
     ]);
 });
 
