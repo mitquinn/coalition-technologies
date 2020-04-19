@@ -2,6 +2,9 @@
 
 @section('content')
     <div class="container">
-        <projects></projects>
+        <div class="row">
+            <project></project>
+            <task></task>
+        </div>
     </div>
 @endsection

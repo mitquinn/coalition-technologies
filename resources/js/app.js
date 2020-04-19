@@ -19,8 +19,8 @@ require('spark-bootstrap');
 require('./components/bootstrap');
 
 /*** Register Components ***/
-Vue.component('projects', require('./components/projects.vue').default);
-
+Vue.component('project', require('./components/project.vue').default);
+Vue.component('task', require('./components/task.vue').default);
 
 var app = new Vue({
     mixins: [require('spark')],
