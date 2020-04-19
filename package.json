@@ -23,7 +23,10 @@
     "sass-loader": "7.*",
     "sweetalert2": "^8.13.6",
     "urijs": "^1.17.0",
-    "vue": "2.*",
-    "vue-template-compiler": "^2.6.10"
+    "vue": "2.*"
+  },
+  "devDependencies": {
+    "vue-loader": "^15.9.1",
+    "vue-template-compiler": "^2.6.11"
   }
 }
