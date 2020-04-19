@@ -2048,20 +2048,48 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      projects: []
+      projects: [],
+      newProjectName: ''
     };
   },
   mounted: function mounted() {
-    var _this = this;
-
-    axios.get('/api/v1/project').then(function (response) {
-      return _this.projects = response.data.data;
-    });
+    this.getProjects();
   },
-  methods: {}
+  methods: {
+    getProjects: function getProjects() {
+      var _this = this;
+
+      axios.get('/api/v1/project').then(function (response) {
+        return _this.projects = response.data.data;
+      });
+    },
+    newProject: function newProject() {
+      var _this2 = this;
+
+      axios.post('/api/v1/project', {
+        'name': this.newProjectName
+      }).then(function (response) {
+        _this2.getProjects();
+
+        _this2.newProjectName = '';
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -60958,13 +60986,10 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "col-3" }, [
+    _c("div", { staticClass: "col-4" }, [
       _c(
         "div",
-        {
-          staticClass: "card bg-light mb-3",
-          staticStyle: { "max-width": "18rem" }
-        },
+        { staticClass: "card bg-light", staticStyle: { "max-width": "18rem" } },
         [
           _c("div", { staticClass: "card-header" }, [_vm._v("Projects")]),
           _vm._v(" "),
@@ -60981,6 +61006,53 @@ var render = function() {
               }),
               0
             )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-footer" }, [
+            _c("form", [
+              _c("div", { staticClass: "form-group" }, [
+                _c("div", { staticClass: "input-group" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.newProjectName,
+                        expression: "newProjectName"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      type: "text",
+                      placeholder: "Project Name",
+                      "aria-label": "New Project",
+                      "aria-describedby": "basic-addon2"
+                    },
+                    domProps: { value: _vm.newProjectName },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.newProjectName = $event.target.value
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "input-group-append" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-outline-secondary",
+                        attrs: { type: "button" },
+                        on: { click: _vm.newProject }
+                      },
+                      [_vm._v("Add")]
+                    )
+                  ])
+                ])
+              ])
+            ])
           ])
         ]
       )
