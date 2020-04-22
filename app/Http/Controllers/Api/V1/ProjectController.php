@@ -62,6 +62,7 @@ class ProjectController extends ApiController
     public function show(Project $project)
     {
         try {
+            $project->tasks;
             return $this->success($project);
         } catch (Exception $exception) {
             Log::error($exception->getMessage(), $exception->getTrace());

@@ -2059,33 +2059,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['projects'],
   data: function data() {
     return {
-      projects: [],
       newProjectName: ''
     };
   },
-  mounted: function mounted() {
-    this.getProjects();
-  },
   methods: {
-    getProjects: function getProjects() {
-      var _this = this;
-
-      axios.get('/api/v1/project').then(function (response) {
-        return _this.projects = response.data.data;
-      });
-    },
     newProject: function newProject() {
-      var _this2 = this;
+      var _this = this;
 
       axios.post('/api/v1/project', {
         'name': this.newProjectName
       }).then(function (response) {
-        _this2.getProjects();
+        _this.$root.getProjects();
 
-        _this2.newProjectName = '';
+        _this.newProjectName = '';
       });
+    },
+    setActiveProject: function setActiveProject(id) {
+      this.$root.setActiveProject(id);
     }
   }
 });
@@ -2126,35 +2119,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['tasks'],
   data: function data() {
     return {
-      tasks: [],
       newTaskName: ''
     };
   },
-  mounted: function mounted() {
-    this.getTasks();
-  },
   methods: {
-    getTasks: function getTasks() {
-      var _this = this;
-
-      axios.get('/api/v1/project/1/task').then(function (response) {
-        _this.tasks = response.data.data.tasks;
-      });
-    },
     newTask: function newTask() {
-      var _this2 = this;
+      var _this = this;
 
       axios.post('/api/v1/task', {
         'name': this.newTaskName,
-        'project_id': 1,
+        'project_id': this.$root.activeProject,
         'priority': 1
       }).then(function (response) {
-        _this2.getTasks();
+        _this.$root.getTasks(_this.$root.activeProject);
 
-        _this2.newTaskName = '';
+        _this.newTaskName = '';
       });
     }
   }
@@ -61064,7 +61048,14 @@ var render = function() {
           _vm._l(_vm.projects, function(project) {
             return _c(
               "a",
-              { staticClass: "list-group-item list-group-item-action" },
+              {
+                staticClass: "list-group-item list-group-item-action",
+                on: {
+                  click: function($event) {
+                    return _vm.setActiveProject(project.id)
+                  }
+                }
+              },
               [_vm._v(_vm._s(project.name))]
             )
           }),
@@ -61155,82 +61146,84 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "col-8" }, [
-    _c("div", { staticClass: "card bg-light" }, [
-      _c("div", { staticClass: "card-header" }, [_vm._v("Tasks")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-body" }, [
-        _c(
-          "div",
-          { staticClass: "list-group" },
-          _vm._l(_vm.tasks, function(task) {
-            return _c(
-              "a",
-              { staticClass: "list-group-item list-group-item-action" },
-              [_vm._v(_vm._s(task.name))]
+    this.$root.activeProject
+      ? _c("div", { staticClass: "card bg-light" }, [
+          _c("div", { staticClass: "card-header" }, [_vm._v("Tasks")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body" }, [
+            _c(
+              "div",
+              { staticClass: "list-group" },
+              _vm._l(_vm.tasks, function(task) {
+                return _c(
+                  "a",
+                  { staticClass: "list-group-item list-group-item-action" },
+                  [_vm._v(_vm._s(task.name))]
+                )
+              }),
+              0
             )
-          }),
-          0
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-footer" }, [
-        _c(
-          "form",
-          {
-            on: {
-              submit: function($event) {
-                $event.preventDefault()
-                return _vm.newTask($event)
-              }
-            }
-          },
-          [
-            _c("div", { staticClass: "form-group" }, [
-              _c("div", { staticClass: "input-group" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.newTaskName,
-                      expression: "newTaskName"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: {
-                    type: "text",
-                    placeholder: "Task Name",
-                    "aria-label": "New Task",
-                    "aria-describedby": "basic-addon2"
-                  },
-                  domProps: { value: _vm.newTaskName },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.newTaskName = $event.target.value
-                    }
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-footer" }, [
+            _c(
+              "form",
+              {
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.newTask($event)
                   }
-                }),
-                _vm._v(" "),
-                _c("div", { staticClass: "input-group-append" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-outline-secondary",
-                      attrs: { type: "button" },
-                      on: { click: _vm.newTask }
-                    },
-                    [_vm._v("Add")]
-                  )
+                }
+              },
+              [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("div", { staticClass: "input-group" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.newTaskName,
+                          expression: "newTaskName"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "text",
+                        placeholder: "Task Name",
+                        "aria-label": "New Task",
+                        "aria-describedby": "basic-addon2"
+                      },
+                      domProps: { value: _vm.newTaskName },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.newTaskName = $event.target.value
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "input-group-append" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-outline-secondary",
+                          attrs: { type: "button" },
+                          on: { click: _vm.newTask }
+                        },
+                        [_vm._v("Add")]
+                      )
+                    ])
+                  ])
                 ])
-              ])
-            ])
-          ]
-        )
-      ])
-    ])
+              ]
+            )
+          ])
+        ])
+      : _c("div", [_vm._v("Select a project to display.")])
   ])
 }
 var staticRenderFns = []
@@ -73391,9 +73384,13 @@ module.exports = function(module) {
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
   \*****************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /*
  |--------------------------------------------------------------------------
  | Laravel Spark Bootstrap
@@ -73411,13 +73408,44 @@ module.exports = function(module) {
 __webpack_require__(/*! spark-bootstrap */ "./spark/resources/assets/js/spark-bootstrap.js");
 
 __webpack_require__(/*! ./components/bootstrap */ "./resources/js/components/bootstrap.js");
+
+
 /*** Register Components ***/
 
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('project', __webpack_require__(/*! ./components/project.vue */ "./resources/js/components/project.vue")["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('task', __webpack_require__(/*! ./components/task.vue */ "./resources/js/components/task.vue")["default"]);
+var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
+  mixins: [__webpack_require__(/*! spark */ "./spark/resources/assets/js/spark.js")],
+  data: function data() {
+    return {
+      projects: [],
+      tasks: [],
+      activeProject: null
+    };
+  },
+  mounted: function mounted() {
+    this.getProjects();
+  },
+  methods: {
+    getProjects: function getProjects() {
+      var _this = this;
 
-Vue.component('project', __webpack_require__(/*! ./components/project.vue */ "./resources/js/components/project.vue")["default"]);
-Vue.component('task', __webpack_require__(/*! ./components/task.vue */ "./resources/js/components/task.vue")["default"]);
-var app = new Vue({
-  mixins: [__webpack_require__(/*! spark */ "./spark/resources/assets/js/spark.js")]
+      axios.get('/api/v1/project').then(function (response) {
+        return _this.projects = response.data.data;
+      });
+    },
+    setActiveProject: function setActiveProject(id) {
+      this.activeProject = id;
+      this.getTasks(id);
+    },
+    getTasks: function getTasks(id) {
+      var _this2 = this;
+
+      axios.get('/api/v1/project/' + id).then(function (response) {
+        return _this2.tasks = response.data.data.tasks;
+      });
+    }
+  }
 });
 
 /***/ }),

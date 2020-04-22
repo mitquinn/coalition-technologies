@@ -4,7 +4,7 @@
             <div class="card-header">Projects</div>
             <div class="card-body">
                 <div class="list-group">
-                    <a v-for="project in projects" class="list-group-item list-group-item-action">{{project.name}}</a>
+                    <a v-for="project in projects" class="list-group-item list-group-item-action" v-on:click="setActiveProject(project.id)">{{project.name}}</a>
                 </div>
             </div>
             <div class="card-footer">
@@ -25,32 +25,24 @@
 
 <script>
     export default {
-
+        props: ['projects'],
         data: function() {
             return {
-                projects: [],
                 newProjectName: ''
             }
         },
 
-        mounted() {
-            this.getProjects()
-        },
-
         methods: {
-            getProjects() {
-                axios.get('/api/v1/project').then(
-                    response => this.projects = response.data.data
-                );
-            },
-
             newProject() {
                 axios.post('/api/v1/project', {'name': this.newProjectName}).then(
                     response => {
-                        this.getProjects();
+                        this.$root.getProjects();
                         this.newProjectName = '';
                     }
                 );
+            },
+            setActiveProject(id) {
+                this.$root.setActiveProject(id);
             }
         },
     }

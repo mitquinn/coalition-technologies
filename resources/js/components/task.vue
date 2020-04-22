@@ -1,6 +1,6 @@
 <template>
     <div class="col-8">
-        <div class="card bg-light" >
+        <div v-if="this.$root.activeProject" class="card bg-light" >
             <div class="card-header">Tasks</div>
             <div class="card-body">
                 <div class="list-group">
@@ -20,35 +20,23 @@
                 </form>
             </div>
         </div>
+        <div v-else>Select a project to display.</div>
     </div>
 </template>
 
 <script>
     export default {
-
+        props: ['tasks'],
         data: function() {
             return {
-                tasks: [],
                 newTaskName: ''
             }
         },
-
-        mounted() {
-            this.getTasks();
-        },
-
         methods: {
-            getTasks() {
-                axios.get('/api/v1/project/1/task').then(
-                    response => {
-                        this.tasks = response.data.data.tasks;
-                    }
-                );
-            },
             newTask() {
-                axios.post('/api/v1/task', {'name': this.newTaskName, 'project_id': 1, 'priority': 1}).then(
+                axios.post('/api/v1/task', {'name': this.newTaskName, 'project_id': this.$root.activeProject, 'priority': 1}).then(
                     response => {
-                        this.getTasks();
+                        this.$root.getTasks(this.$root.activeProject);
                         this.newTaskName = '';
                     }
                 );

@@ -23,7 +23,8 @@
     "sass-loader": "7.*",
     "sweetalert2": "^8.13.6",
     "urijs": "^1.17.0",
-    "vue": "2.*"
+    "vue": "2.*",
+    "vuex": "^3.2.0"
   },
   "devDependencies": {
     "vue-loader": "^15.9.1",
