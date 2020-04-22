@@ -26,7 +26,7 @@
 
 <script>
     export default {
-        props: ['tasks'],
+        props: ['tasks', 'activeProject'],
         data: function() {
             return {
                 newTaskName: ''
@@ -34,9 +34,9 @@
         },
         methods: {
             newTask() {
-                axios.post('/api/v1/task', {'name': this.newTaskName, 'project_id': this.$root.activeProject, 'priority': 1}).then(
+                axios.post('/api/v1/task', {'name': this.newTaskName, 'project_id': this.activeProject, 'priority': 1}).then(
                     response => {
-                        this.$root.getTasks(this.$root.activeProject);
+                        this.$root.getTasks(this.activeProject);
                         this.newTaskName = '';
                     }
                 );

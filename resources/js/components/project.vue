@@ -4,7 +4,13 @@
             <div class="card-header">Projects</div>
             <div class="card-body">
                 <div class="list-group">
-                    <a v-for="project in projects" class="list-group-item list-group-item-action" v-on:click="setActiveProject(project.id)">{{project.name}}</a>
+                    <a
+                        v-for="project in projects"
+                        v-on:click="setActiveProject(project.id)"
+                        v-bind:class="[project.id === activeProject ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action']"
+                    >
+                        {{project.name}}
+                    </a>
                 </div>
             </div>
             <div class="card-footer">
@@ -25,7 +31,7 @@
 
 <script>
     export default {
-        props: ['projects'],
+        props: ['projects', 'activeProject'],
         data: function() {
             return {
                 newProjectName: ''
@@ -38,6 +44,7 @@
                     response => {
                         this.$root.getProjects();
                         this.newProjectName = '';
+                        this.setActiveProject(response.data.data.id);
                     }
                 );
             },

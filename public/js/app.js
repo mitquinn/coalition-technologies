@@ -2058,8 +2058,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['projects'],
+  props: ['projects', 'activeProject'],
   data: function data() {
     return {
       newProjectName: ''
@@ -2075,6 +2081,8 @@ __webpack_require__.r(__webpack_exports__);
         _this.$root.getProjects();
 
         _this.newProjectName = '';
+
+        _this.setActiveProject(response.data.data.id);
       });
     },
     setActiveProject: function setActiveProject(id) {
@@ -2121,7 +2129,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['tasks'],
+  props: ['tasks', 'activeProject'],
   data: function data() {
     return {
       newTaskName: ''
@@ -2133,10 +2141,10 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.post('/api/v1/task', {
         'name': this.newTaskName,
-        'project_id': this.$root.activeProject,
+        'project_id': this.activeProject,
         'priority': 1
       }).then(function (response) {
-        _this.$root.getTasks(_this.$root.activeProject);
+        _this.$root.getTasks(_this.activeProject);
 
         _this.newTaskName = '';
       });
@@ -61049,14 +61057,24 @@ var render = function() {
             return _c(
               "a",
               {
-                staticClass: "list-group-item list-group-item-action",
+                class: [
+                  project.id === _vm.activeProject
+                    ? "list-group-item list-group-item-action active"
+                    : "list-group-item list-group-item-action"
+                ],
                 on: {
                   click: function($event) {
                     return _vm.setActiveProject(project.id)
                   }
                 }
               },
-              [_vm._v(_vm._s(project.name))]
+              [
+                _vm._v(
+                  "\n                    " +
+                    _vm._s(project.name) +
+                    "\n                "
+                )
+              ]
             )
           }),
           0
