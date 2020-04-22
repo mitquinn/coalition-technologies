@@ -20,7 +20,7 @@
                 </form>
             </div>
         </div>
-        <div v-else>Select a project to display.</div>
+        <div v-else>Select a project to display tasks.</div>
     </div>
 </template>
 

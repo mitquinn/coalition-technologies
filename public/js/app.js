@@ -61223,7 +61223,7 @@ var render = function() {
             )
           ])
         ])
-      : _c("div", [_vm._v("Select a project to display.")])
+      : _c("div", [_vm._v("Select a project to display tasks.")])
   ])
 }
 var staticRenderFns = []
@@ -73429,6 +73429,10 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   methods: {
     getProjects: function getProjects() {
       var _this = this;
+
+      if (!this.spark.userId) {
+        return;
+      }
 
       axios.get('/api/v1/project').then(function (response) {
         return _this.projects = response.data.data;

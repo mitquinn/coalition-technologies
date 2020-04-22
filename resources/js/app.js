@@ -43,6 +43,10 @@ let app = new Vue({
 
     methods: {
         getProjects() {
+            if (!this.spark.userId) {
+                return;
+            }
+
             axios.get('/api/v1/project').then(
                 response => this.projects = response.data.data
             );
