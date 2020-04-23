@@ -7,9 +7,11 @@
                     <a
                         v-for="project in projects"
                         v-on:click="setActiveProject(project.id)"
-                        v-bind:class="[project.id === activeProject ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action']"
+                        list-group-item d-flex justify-content-between align-items-center
+                        v-bind:class="[project.id === activeProject ? 'list-group-item d-flex justify-content-between align-items-center active' : 'list-group-item d-flex justify-content-between align-items-center']"
                     >
                         {{project.name}}
+                        <span class="badge badge-secondary badge-pill">{{project.tasks.length}}</span>
                     </a>
                 </div>
             </div>

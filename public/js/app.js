@@ -2064,6 +2064,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['projects', 'activeProject'],
   data: function data() {
@@ -61719,9 +61721,15 @@ var render = function() {
               {
                 class: [
                   project.id === _vm.activeProject
-                    ? "list-group-item list-group-item-action active"
-                    : "list-group-item list-group-item-action"
+                    ? "list-group-item d-flex justify-content-between align-items-center active"
+                    : "list-group-item d-flex justify-content-between align-items-center"
                 ],
+                attrs: {
+                  "list-group-item": "",
+                  "d-flex": "",
+                  "justify-content-between": "",
+                  "align-items-center": ""
+                },
                 on: {
                   click: function($event) {
                     return _vm.setActiveProject(project.id)
@@ -61732,7 +61740,12 @@ var render = function() {
                 _vm._v(
                   "\n                    " +
                     _vm._s(project.name) +
-                    "\n                "
+                    "\n                    "
+                ),
+                _c(
+                  "span",
+                  { staticClass: "badge badge-secondary badge-pill" },
+                  [_vm._v(_vm._s(project.tasks.length))]
                 )
               ]
             )

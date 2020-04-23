@@ -32,6 +32,8 @@ class Project extends BaseModel
 
     /** @var string[] $fillable */
     protected $fillable = ['name'];
+    
+    protected $with = ['tasks'];
 
     protected static function boot()
     {
