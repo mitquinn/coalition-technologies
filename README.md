@@ -22,6 +22,7 @@ Clone the repo to your desired location, From that location run:
 * cp .env-example .env
 * docker-compose up -d
 * docker-compose run coalition_technologies composer install
+* docker-compose run coalition_technologies php artisan key:generate
 * docker-compose run coalition_technologies npm install
 * docker-compose run coalition_technologies npm run dev
  
@@ -32,3 +33,8 @@ Clone the repo to your desired location, From that location run:
  
  Finally run migrations with command:
  * docker-compose run coalition_technologies php artisan migrate
+ 
+###### Trouble Shooting
+* If you get an error that appears of be configuration based. You may need to restart the docker-compose, also you should try clearing config cache.
+* If you get an error about cipher being wrong this is because you APP_KEY is invalid. 
+
