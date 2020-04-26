@@ -42,6 +42,8 @@ class Task extends Model
 
         static::creating(function(Task $model) {
             $model->setUserId(Auth::user()->getAuthIdentifier());
+            $highestPriority = (int)Task::whereUserId($model->getUserId())->whereProjectId($model->getProjectId())->max('priority');
+            $model->setPriority($highestPriority+=1);
         });
     }
 

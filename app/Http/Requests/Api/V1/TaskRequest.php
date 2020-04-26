@@ -28,6 +28,13 @@ class TaskRequest extends BaseRequest
      */
     public function rules()
     {
+        if (request()->isMethod('POST')) {
+            return [
+                'name' => 'required|string',
+                'project_id' => 'required|integer|exists:projects,id'
+            ];
+        }
+
         return [
             'name' => 'required|string',
             'priority' => 'required|integer',

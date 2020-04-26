@@ -21,7 +21,5 @@ Route::group([
         'project' => 'ProjectController',
         'task' => 'TaskController'
     ]);
-
-    Route::get('project/{project}/task', 'ProjectTaskController@projectTask');
 });
 
