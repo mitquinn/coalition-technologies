@@ -3,12 +3,14 @@
         <div v-if="this.$root.activeProject" class="card bg-light" >
             <div class="card-header">Tasks</div>
             <div class="card-body">
-                <div v-for="task in tasks" class="input-group mb-3">
-                    <input type="text" class="form-control readonly" v-bind:value="task.name" readonly>
-                    <div class="input-group-append">
-                        <button v-on:click="deleteTask(task.id)" class="btn btn-outline-danger" type="button">Delete</button>
+                <draggable v-model="tasks" v-bind:start="drag=true" v-bind:end="drag=false">
+                    <div v-for="task in tasks" class="input-group mb-3">
+                        <input type="text" class="form-control readonly" v-bind:value="task.name" readonly>
+                        <div class="input-group-append">
+                            <button v-on:click="deleteTask(task.id)" class="btn btn-outline-danger" type="button">Delete</button>
+                        </div>
                     </div>
-                </div>
+                </draggable>
             </div>
             <div class="card-footer">
                 <form v-on:submit.prevent="newTask">
@@ -33,6 +35,8 @@
 </template>
 
 <script>
+    import draggable from 'vuedraggable';
+
     export default {
         props: ['tasks', 'activeProject'],
         data: function() {
@@ -57,6 +61,9 @@
                 );
             }
         },
+        components: {
+            draggable,
+        }
     }
 </script>
 

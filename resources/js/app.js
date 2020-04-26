@@ -26,6 +26,7 @@ Vue.component('task', require('./components/task.vue').default);
 
 
 
+
 let app = new Vue({
     mixins: [require('spark')],
 
