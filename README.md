@@ -18,7 +18,7 @@
 * You will need to have docker and docker-compose installed and configured. 
 
 ##### Installation
-Clone the repo to your desired location, From that location run:
+###### Clone the repo to your desired location, From that location run:
 * cp .env-example .env
 * docker-compose up -d
 * docker-compose run coalition_technologies composer install
@@ -26,12 +26,12 @@ Clone the repo to your desired location, From that location run:
 * docker-compose run coalition_technologies npm install
 * docker-compose run coalition_technologies npm run dev
  
- Next you will need to create the database. I installed Adminer for easy of access.
+###### Next you will need to create the database. I installed Adminer for easy of access.
  * Navigate to your Docker Host Url @ port 8080. (usually http://127.0.0.1:8080)
  * Login credentials are: Server=database, user=root, password=root
  * Create a database called laravel, collation is: 	utf8_unicode_ci
  
- Finally run migrations with command:
+###### Finally run migrations with command:
  * docker-compose run coalition_technologies php artisan migrate
  
 ###### Trouble Shooting
