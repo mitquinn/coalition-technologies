@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\User;
 use Auth;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 
@@ -44,6 +45,11 @@ class Task extends Model
             $model->setUserId(Auth::user()->getAuthIdentifier());
             $highestPriority = (int)Task::whereUserId($model->getUserId())->whereProjectId($model->getProjectId())->max('priority');
             $model->setPriority($highestPriority+=1);
+        });
+
+
+        static::addGlobalScope('order', function (Builder $builder) {
+            $builder->orderBy('priority', 'asc');
         });
     }
 

@@ -2,9 +2,8 @@
 
 namespace App\Models;
 
-use App\User;
 use Auth;
-
+use App\User;
 
 /**
  * App\Models\Project
@@ -32,7 +31,7 @@ class Project extends BaseModel
 
     /** @var string[] $fillable */
     protected $fillable = ['name'];
-    
+
     protected $with = ['tasks'];
 
     protected static function boot()
