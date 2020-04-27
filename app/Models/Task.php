@@ -4,8 +4,11 @@ namespace App\Models;
 
 use App\User;
 use Auth;
+use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 
 /**
@@ -16,21 +19,21 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $project_id
  * @property string $name
  * @property int $priority
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Project $project
- * @property-read \App\User $user
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Task newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Task newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Task query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Task whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Task whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Task whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Task wherePriority($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Task whereProjectId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Task whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Task whereUserId($value)
- * @mixin \Eloquent
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Project $project
+ * @property-read User $user
+ * @method static Builder|Task newModelQuery()
+ * @method static Builder|Task newQuery()
+ * @method static Builder|Task query()
+ * @method static Builder|Task whereCreatedAt($value)
+ * @method static Builder|Task whereId($value)
+ * @method static Builder|Task whereName($value)
+ * @method static Builder|Task wherePriority($value)
+ * @method static Builder|Task whereProjectId($value)
+ * @method static Builder|Task whereUpdatedAt($value)
+ * @method static Builder|Task whereUserId($value)
+ * @mixin Eloquent
  */
 class Task extends Model
 {
@@ -47,7 +50,6 @@ class Task extends Model
             $model->setPriority($highestPriority+=1);
         });
 
-
         static::addGlobalScope('order', function (Builder $builder) {
             $builder->orderBy('priority', 'asc');
         });
@@ -56,7 +58,7 @@ class Task extends Model
     /*** Relationships ***/
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function project()
     {
@@ -64,7 +66,7 @@ class Task extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function user()
     {

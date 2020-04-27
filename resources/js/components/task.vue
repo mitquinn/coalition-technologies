@@ -3,8 +3,8 @@
         <div v-if="this.$root.activeProject" class="card bg-light" >
             <div class="card-header">Tasks</div>
             <div class="card-body">
-                <draggable v-model="tasks" v-bind:start="drag=true" v-bind:end="drag=false">
-                    <div v-for="task in tasks" class="input-group mb-3">
+                <draggable v-model="tasks" @end="onEnd">
+                    <div v-for="task in tasks"  :id="task.id" class="input-group mb-3">
                         <input type="text" class="form-control readonly" v-bind:value="task.name" readonly>
                         <div class="input-group-append">
                             <button v-on:click="deleteTask(task.id)" class="btn btn-outline-danger" type="button">Delete</button>
@@ -59,6 +59,11 @@
                         this.$root.getTasks(this.activeProject);
                     }
                 );
+            },
+            onEnd(event) {
+                this.tasks.map(function(task, priority) {
+                    axios.patch('api/v1/task/'+task.id, {'priority': priority});
+                });
             }
         },
         components: {

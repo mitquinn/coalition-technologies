@@ -2170,6 +2170,13 @@ __webpack_require__.r(__webpack_exports__);
       axios["delete"]('/api/v1/task/' + id).then(function (response) {
         _this2.$root.getTasks(_this2.activeProject);
       });
+    },
+    onEnd: function onEnd(event) {
+      this.tasks.map(function (task, priority) {
+        axios.patch('api/v1/task/' + task.id, {
+          'priority': priority
+        });
+      });
     }
   },
   components: {
@@ -65571,7 +65578,7 @@ var render = function() {
               _c(
                 "draggable",
                 {
-                  attrs: { start: (_vm.drag = true), end: (_vm.drag = false) },
+                  on: { end: _vm.onEnd },
                   model: {
                     value: _vm.tasks,
                     callback: function($$v) {
@@ -65581,29 +65588,33 @@ var render = function() {
                   }
                 },
                 _vm._l(_vm.tasks, function(task) {
-                  return _c("div", { staticClass: "input-group mb-3" }, [
-                    _c("input", {
-                      staticClass: "form-control readonly",
-                      attrs: { type: "text", readonly: "" },
-                      domProps: { value: task.name }
-                    }),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "input-group-append" }, [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-outline-danger",
-                          attrs: { type: "button" },
-                          on: {
-                            click: function($event) {
-                              return _vm.deleteTask(task.id)
+                  return _c(
+                    "div",
+                    { staticClass: "input-group mb-3", attrs: { id: task.id } },
+                    [
+                      _c("input", {
+                        staticClass: "form-control readonly",
+                        attrs: { type: "text", readonly: "" },
+                        domProps: { value: task.name }
+                      }),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "input-group-append" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-outline-danger",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                return _vm.deleteTask(task.id)
+                              }
                             }
-                          }
-                        },
-                        [_vm._v("Delete")]
-                      )
-                    ])
-                  ])
+                          },
+                          [_vm._v("Delete")]
+                        )
+                      ])
+                    ]
+                  )
                 }),
                 0
               )

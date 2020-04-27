@@ -4,6 +4,12 @@ namespace App\Models;
 
 use Auth;
 use App\User;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\Project
@@ -11,19 +17,19 @@ use App\User;
  * @property int $id
  * @property int $user_id
  * @property string $name
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\User $user
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereUserId($value)
- * @mixin \Eloquent
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Task[] $tasks
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read User $user
+ * @method static Builder|Project newModelQuery()
+ * @method static Builder|Project newQuery()
+ * @method static Builder|Project query()
+ * @method static Builder|Project whereCreatedAt($value)
+ * @method static Builder|Project whereId($value)
+ * @method static Builder|Project whereName($value)
+ * @method static Builder|Project whereUpdatedAt($value)
+ * @method static Builder|Project whereUserId($value)
+ * @mixin Eloquent
+ * @property-read Collection|Task[] $tasks
  * @property-read int|null $tasks_count
  */
 class Project extends BaseModel
@@ -46,7 +52,7 @@ class Project extends BaseModel
     /*** Relationships ***/
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function user()
     {
@@ -54,7 +60,7 @@ class Project extends BaseModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function tasks()
     {

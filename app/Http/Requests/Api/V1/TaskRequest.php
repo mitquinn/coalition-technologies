@@ -35,10 +35,9 @@ class TaskRequest extends BaseRequest
             ];
         }
 
+        //If its an update request we are only interested in the priority change.
         return [
-            'name' => 'required|string',
             'priority' => 'required|integer',
-            'project_id' => 'required|integer|exists:projects,id'
         ];
     }
 }
