@@ -61,6 +61,7 @@
                 );
             },
             onEnd(event) {
+                //TODO: This needs to be a bulk update. Looping through all of these update requests is silly.
                 this.tasks.map(function(task, priority) {
                     axios.patch('api/v1/task/'+task.id, {'priority': priority});
                 });
