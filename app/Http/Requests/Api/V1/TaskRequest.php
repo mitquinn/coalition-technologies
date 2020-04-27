@@ -37,7 +37,8 @@ class TaskRequest extends BaseRequest
 
         //If its an update request we are only interested in the priority change.
         return [
-            'priority' => 'required|integer',
+            'name' => 'sometimes|string',
+            'priority' => 'sometimes|integer',
         ];
     }
 }
